@@ -279,7 +279,6 @@ class _SignUpState extends State<SignUp> {
                             showSuccessDialog(context);
                           }).catchError((error) {
                             // Handle any errors that occur during the sign-up process
-                            print("Error during sign-up: $error");
                           });
                         }
                       },

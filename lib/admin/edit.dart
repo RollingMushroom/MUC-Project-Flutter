@@ -70,12 +70,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Profile updated successfully')),
       );
-      setState(() {
-        _isEditingName = false;
-        _isEditingEmail = false;
-        _isEditingPhone = false;
-        _isEditingPassword = false;
-      });
+      Navigator.pop(context, updatedUser);
     }
   }
 

@@ -1,41 +1,40 @@
 import 'package:flutter/material.dart';
-import '../JsonModels/booking.dart'; // Changed from ../JsonModels/booking.dart
-import 'admin_edit_booking.dart';
-
+import 'package:google_nav_bar/google_nav_bar.dart';
+import '../admin/user_list_view.dart';
+import '../JsonModels/login.dart';
+import '../booking/edit_booking.dart'; // Import the EditBookingPage
 import '../services/restaurantpack.dart'; // Import your database helper
 
-// ignore: must_be_immutable
 class AdminBookingHistory extends StatefulWidget {
-  int? usrId;
-  int? bookId;
-  AdminBookingHistory({super.key, required this.usrId, required this.bookId});
+  const AdminBookingHistory({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _AdminBookingHistoryState createState() => _AdminBookingHistoryState();
 }
 
 class _AdminBookingHistoryState extends State<AdminBookingHistory> {
   late Future<List<Map<String, dynamic>>> _futureBookingHistory;
+  int _selectedIndex = 1; // Added to track the current tab index
 
   @override
   void initState() {
     super.initState();
-    _futureBookingHistory =
-        _getBookingHistory() as Future<List<Map<String, dynamic>>>;
+    _futureBookingHistory = _getBookingHistory();
   }
 
   Future<List<Map<String, dynamic>>> _getBookingHistory() async {
     DatabaseHelper databaseHelper = DatabaseHelper();
+    // Fetch all booking histories from the database
     return databaseHelper.getAllBookingHistories();
   }
 
   void _deleteBooking(int bookingId) async {
     DatabaseHelper databaseHelper = DatabaseHelper();
+    // Delete the booking from the database
     await databaseHelper.deleteBooking(bookingId);
+    // Refresh the booking history after deletion
     setState(() {
-      _futureBookingHistory =
-          _getBookingHistory() as Future<List<Map<String, dynamic>>>;
+      _futureBookingHistory = _getBookingHistory();
     });
   }
 
@@ -44,7 +43,7 @@ class _AdminBookingHistoryState extends State<AdminBookingHistory> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Admin Booking History',
+          'Booking List',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -90,7 +89,7 @@ class _AdminBookingHistoryState extends State<AdminBookingHistory> {
                       children: [
                         Text('User ID: ${bookingData['usrId']}'),
                         Text('Booking Date: ${bookingData['bookdate']}'),
-                        Text('Booking Time: ${bookingData['booktime']}'),
+                        Text('Event Date: ${bookingData['eventdate']}'),
                       ],
                     ),
                     trailing: Row(
@@ -102,17 +101,16 @@ class _AdminBookingHistoryState extends State<AdminBookingHistory> {
                             var updatedDetails = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => EditBookingAdminPage(
+                                builder: (context) => EditBookingPage(
                                   bookingId: bookingData['bookId'],
-                                  userId: bookingData['usrId'],
                                   bookingDetails: bookingData,
                                 ),
                               ),
                             );
                             if (updatedDetails != null) {
                               setState(() {
-                                _futureBookingHistory = _getBookingHistory()
-                                    as Future<List<Map<String, dynamic>>>;
+                                // Force refresh the booking history
+                                _futureBookingHistory = _getBookingHistory();
                               });
                             }
                           },
@@ -156,6 +154,87 @@ class _AdminBookingHistoryState extends State<AdminBookingHistory> {
           }
         },
       ),
+      bottomNavigationBar: Container(
+        color: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
+          child: GNav(
+            backgroundColor: Colors.black,
+            color: Colors.white,
+            activeColor: Colors.white,
+            tabBackgroundColor: Colors.grey.shade800,
+            gap: 8,
+            selectedIndex: _selectedIndex, // Highlight current tab
+            onTabChange: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+              switch (index) {
+                case 0:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UserListView(),
+                    ),
+                  );
+                  break;
+                case 1:
+                  break;
+                case 2:
+                  _showLogoutConfirmationDialog(context);
+                  break;
+              }
+            },
+            padding: const EdgeInsets.all(16),
+            tabs: const [
+              GButton(
+                icon: Icons.restaurant_menu,
+                text: 'Registered User',
+              ),
+              GButton(
+                icon: Icons.bookmark_add,
+                text: 'Booking',
+              ),
+              GButton(
+                icon: Icons.logout_sharp,
+                text: 'Logout',
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showLogoutConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Log Out'),
+          content: const Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Log Out'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

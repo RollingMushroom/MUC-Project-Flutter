@@ -1,6 +1,6 @@
-# Selera Kampung - A Restaurant Menu Package Booking App
+# Feast Junction - A Restaurant Menu Package Booking App
 
-Welcome to the Selera Kampung Restaurant Menu Package Booking App! This Flutter application allows users to book restaurant menu packages for their events seamlessly. Both new and existing users can navigate through the app to register, book packages, and manage their bookings efficiently.
+Welcome to the Feast Junction Menu Package Booking App! This Flutter application allows users to book restaurant menu packages for their events seamlessly. Both new and existing users can navigate through the app to register, book packages, and manage their bookings efficiently.
 
 ## Features
 
@@ -91,14 +91,22 @@ This project is built with Flutter. If you're new to Flutter, here are some reso
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 - [Flutter documentation](https://docs.flutter.dev/)
 
-## Contributing
-We welcome contributions! Please fork the repository and submit pull requests for any improvements or bug fixes.
-
-## License
-This project is licensed under the MIT License.
 
 ## Screenshots
-*Coming soon*
+
+Here are some screenshots of the application:
+
+![Front Page](screenshots/front_page.png)
+*Front page showing available menu packages*
+
+![Booking Form](screenshots/booking_form.png)
+*Booking form for selecting menu packages*
+
+![User Profile](screenshots/user_profile.png)
+*User profile management screen*
+
+![Admin Dashboard](screenshots/admin_dashboard.png)
+*Administrator control panel*
 
 ## About
 This application was developed as an assignment for ISB26604 - Mobile and Ubiquitous Computing.

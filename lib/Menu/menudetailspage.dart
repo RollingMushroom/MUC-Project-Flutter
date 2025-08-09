@@ -15,7 +15,6 @@ class MalaysianFoodPackage extends StatelessWidget {
   final double rating;
   final VoidCallback onTap;
 
-  // ignore: use_key_in_widget_constructors
   const MalaysianFoodPackage({
     Key? key,
     required this.packageName,
@@ -107,7 +106,7 @@ class MalaysianFoodPackage extends StatelessWidget {
 }
 
 class MenuDetailsPage extends StatefulWidget {
-  final Users user;
+  Users user;
   final String name;
   final String email;
   final String phone;
@@ -115,8 +114,7 @@ class MenuDetailsPage extends StatefulWidget {
   final String password;
   final int usrId;
 
-  // ignore: use_key_in_widget_constructors
-  const MenuDetailsPage({
+  MenuDetailsPage({
     Key? key,
     required this.user,
     required this.name,
@@ -128,7 +126,6 @@ class MenuDetailsPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _MenuDetailsPageState createState() => _MenuDetailsPageState();
 }
 
@@ -152,7 +149,6 @@ class _MenuDetailsPageState extends State<MenuDetailsPage>
         backgroundColor: const Color.fromARGB(255, 123, 70, 66),
         leading: const Icon(Icons.restaurant_menu_rounded),
       ),
-
       body: Column(
         children: [
           Expanded(
@@ -197,7 +193,7 @@ class _MenuDetailsPageState extends State<MenuDetailsPage>
             activeColor: Colors.white,
             tabBackgroundColor: Colors.grey.shade800,
             gap: 8,
-            onTabChange: (index) {
+            onTabChange: (index) async {
               switch (index) {
                 case 0:
                   Navigator.push(
@@ -214,7 +210,6 @@ class _MenuDetailsPageState extends State<MenuDetailsPage>
                       ),
                     ),
                   );
-
                   break;
                 case 1:
                   Navigator.push(
@@ -226,7 +221,6 @@ class _MenuDetailsPageState extends State<MenuDetailsPage>
                     ),
                   );
                   break;
-
                 case 2:
                   Navigator.push(
                     context,
@@ -238,7 +232,7 @@ class _MenuDetailsPageState extends State<MenuDetailsPage>
                   );
                   break;
                 case 3:
-                  Navigator.push(
+                  var updatedUser = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ProfileEditPage(
@@ -251,6 +245,12 @@ class _MenuDetailsPageState extends State<MenuDetailsPage>
                       ),
                     ),
                   );
+
+                  if (updatedUser != null) {
+                    setState(() {
+                      widget.user = updatedUser;
+                    });
+                  }
                   break;
               }
             },

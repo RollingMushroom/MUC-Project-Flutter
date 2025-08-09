@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../JsonModels/users.dart';
 
+import 'menudetailspageguest.dart';
+
 class MalaysianFoodDetailPageguest extends StatefulWidget {
   final String? packageName;
   final String description;
@@ -160,7 +162,7 @@ class _MalaysianFoodDetailPageguestState
       ),
       bottomNavigationBar: Container(
         color: Colors.black,
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
           child: GNav(
             backgroundColor: Colors.black,
@@ -171,17 +173,43 @@ class _MalaysianFoodDetailPageguestState
             onTabChange: (index) {
               switch (index) {
                 case 0:
-                  Navigator.pushNamed(context, '/loginpage');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MenuDetailsPageguest(
+                        user: widget.user,
+                        name: widget.name,
+                        email: widget.email,
+                        phone: widget.phone,
+                        username: widget.username,
+                        password: widget.password,
+                      ),
+                    ),
+                  );
                   break;
                 case 1:
                   Navigator.pushNamed(context, '/loginpage');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please log in to continue booking.'),
+                    ),
+                  );
                   break;
                 case 2:
                   Navigator.pushNamed(context, '/loginpage');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please log in to view history.'),
+                    ),
+                  );
                   break;
                 case 3:
                   Navigator.pushNamed(context, '/loginpage');
-                  break;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please log in to edit your profile.'),
+                    ),
+                  );
               }
             },
             padding: const EdgeInsets.all(16),
@@ -192,11 +220,11 @@ class _MalaysianFoodDetailPageguestState
               ),
               GButton(
                 icon: Icons.bookmark_add,
-                text: 'Book Now!',
+                text: 'book',
               ),
               GButton(
                 icon: Icons.history,
-                text: 'History',
+                text: 'history',
               ),
               GButton(
                 icon: Icons.account_box,

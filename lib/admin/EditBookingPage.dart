@@ -6,10 +6,13 @@ import '../services/restaurantpack.dart';
 class EditBookingPage extends StatefulWidget {
   final int bookingId;
   final Map<String, dynamic> bookingDetails; // Accepting Map<String, dynamic>
+  // New parameter to indicate if the admin is accessing
 
-  const EditBookingPage(
-      {Key? key, required this.bookingId, required this.bookingDetails})
-      : super(key: key);
+  const EditBookingPage({
+    Key? key,
+    required this.bookingId,
+    required this.bookingDetails,
+  }) : super(key: key);
 
   @override
   _EditBookingPageState createState() => _EditBookingPageState();
@@ -20,7 +23,6 @@ class _EditBookingPageState extends State<EditBookingPage> {
   late TextEditingController _eventDateController;
   late TextEditingController _eventTimeController;
   late TextEditingController _numGuestsController;
-  MalaysianFoodPackageModel? _selectedPackage;
 
   double totalPrice = 0.0;
   List<Map<String, Object>> _packages = [];
@@ -266,13 +268,6 @@ class _EditBookingPageState extends State<EditBookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Edit Booking Details',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
@@ -280,205 +275,15 @@ class _EditBookingPageState extends State<EditBookingPage> {
           ),
           onPressed: () {
             Navigator.of(context).pop();
-            Navigator.of(context).pop();
           },
         ),
         backgroundColor: const Color.fromARGB(255, 123, 70, 66),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: _bookingDateController,
-              decoration: InputDecoration(
-                labelText: 'Booking Date',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.calendar_today),
-                  onPressed: () => _selectDate(context, _bookingDateController),
-                ),
-              ),
-              readOnly: true,
-            ),
-            TextField(
-              controller: _eventDateController,
-              decoration: InputDecoration(
-                labelText: 'Event Date',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.calendar_today),
-                  onPressed: () => _selectDate(context, _eventDateController),
-                ),
-              ),
-              readOnly: true,
-            ),
-            TextField(
-              controller: _eventTimeController,
-              decoration: InputDecoration(
-                labelText: 'Event Time',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.access_time),
-                  onPressed: () => _selectTime(context, _eventTimeController),
-                ),
-              ),
-              readOnly: true,
-            ),
-            const SizedBox(height: 20),
-            DropdownButtonFormField<MalaysianFoodPackageModel>(
-              value: _selectedPackage,
-              onChanged: (newValue) {
-                setState(() {
-                  _selectedPackage = newValue;
-                });
-              },
-              items: foodPackages.map((MalaysianFoodPackageModel package) {
-                return DropdownMenuItem<MalaysianFoodPackageModel>(
-                  value: package,
-                  child: Text(
-                      "${package.packageName} - RM ${package.price.toStringAsFixed(2)}"),
-                );
-              }).toList(),
-              decoration: const InputDecoration(
-                labelText: "Add Package",
-                filled: true,
-                fillColor: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _addPackage(_selectedPackage);
-                setState(() {
-                  _selectedPackage = null; // Reset the dropdown selection
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    const Color.fromARGB(255, 123, 70, 66), // Button color
-                shape: const StadiumBorder(), // Rounded corners
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 24, vertical: 12), // Padding
-              ),
-              child: const Text(
-                'Add',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            ..._packages.map((package) => ListTile(
-                  title: Text(package['packageName'] as String),
-                  subtitle: Text('Quantity: ${package['quantity']}'),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.remove),
-                        onPressed: () => _updatePackageQuantity(
-                          package['packageName'] as String,
-                          -1,
-                        ),
-                      ),
-                      Text('${package['quantity']}'),
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () => _updatePackageQuantity(
-                            package['packageName'] as String, 1),
-                      ),
-                    ],
-                  ),
-                )),
-            const SizedBox(height: 20),
-            ListTile(
-              title: const Text('Total Price:', style: TextStyle(fontSize: 16)),
-              trailing: Text(
-                'RM ${totalPrice.toStringAsFixed(2)}',
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Number of Guests:",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 123, 70, 66),
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.remove,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            int currentGuests =
-                                int.tryParse(_numGuestsController.text) ?? 1;
-                            if (currentGuests > 1) {
-                              currentGuests--;
-                              _numGuestsController.text =
-                                  currentGuests.toString();
-                            }
-                          });
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      _numGuestsController.text,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 123, 70, 66),
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            int currentGuests =
-                                int.tryParse(_numGuestsController.text) ?? 1;
-                            currentGuests++;
-                            _numGuestsController.text =
-                                currentGuests.toString();
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _updateBooking,
-              style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    const Color.fromARGB(255, 123, 70, 66), // Button color
-                shape: const StadiumBorder(), // Rounded corners
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 24, vertical: 12), // Padding
-              ),
-              child: const Text(
-                'Update Booking',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+            // Your existing code here...
           ],
         ),
       ),

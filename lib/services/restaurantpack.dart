@@ -107,14 +107,10 @@ class DatabaseHelper {
     return await db.query('menubook', where: 'usrId = ?', whereArgs: [usrId]);
   }
 
-  Future<List<Map<String, dynamic>>> getBookingsForAdmin() async {
+  Future<List<Map<String, dynamic>>> getBookingsForAdmin(
+      int usrId, int bookId) async {
     final Database db = await initDB();
-    var result = await db.rawQuery('''
-      SELECT menubook.bookId, menubook.bookdate, users.name
-      FROM menubook
-      JOIN users ON menubook.usrId = users.usrId
-    ''');
-    return result;
+    return await db.query('menubook', where: 'usrId = ?', whereArgs: [usrId]);
   }
 
   // Update booking details
@@ -148,12 +144,6 @@ class DatabaseHelper {
     return usersList;
   }
 
-  // Delete user
-  Future<int> deleteUser(int usrId) async {
-    final Database db = await initDB();
-    return await db.delete('users', where: 'usrId = ?', whereArgs: [usrId]);
-  }
-
   // Fetch all bookings
   Future<List<Booking>> getAllBookings() async {
     final Database db = await initDB();
@@ -163,12 +153,15 @@ class DatabaseHelper {
     return bookingList;
   }
 
-  // Fetch all booking history
-  Future<List<Booking>> getAllBookingHistory() async {
+  // Delete user
+  Future<int> deleteUser(int usrId) async {
     final Database db = await initDB();
-    List<Map<String, dynamic>> results = await db.query('menubook');
-    List<Booking> bookingList =
-        results.map((bookingMap) => Booking.fromMap(bookingMap)).toList();
-    return bookingList;
+    return await db.delete('users', where: 'usrId = ?', whereArgs: [usrId]);
+  }
+
+  // Fetch all booking histories
+  Future<List<Map<String, dynamic>>> getAllBookingHistories() async {
+    final Database db = await initDB();
+    return await db.query('menubook');
   }
 }

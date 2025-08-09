@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import '../JsonModels/users.dart'; // Import your Users model
-import '../JsonModels/booking.dart'; // Import your Booking model
-import '../services/restaurantpack.dart'; // Import your DatabaseHelper class
-import '../JsonModels/login.dart';
+import '../JsonModels/users.dart';
+import '../services/restaurantpack.dart';
 import '../admin/edit.dart';
-import '../admin/adminhistory.dart';
+import '../admin/AdminBookingHistory.dart';
+import '../JsonModels/login.dart';
 
 class UserListView extends StatefulWidget {
+  const UserListView({super.key});
+
   @override
   _UserListViewState createState() => _UserListViewState();
 }
 
 class _UserListViewState extends State<UserListView> {
   late Future<List<Users>> _users;
-  late Future<List<Booking>> _bookings;
 
   @override
   void initState() {
     super.initState();
-    _loadUsers();
-    _loadBookings();
+    _users = DatabaseHelper().getAllUsers();
   }
 
-  Future<void> _loadUsers() async {
-    _users = DatabaseHelper()
-        .getAllUsers(); // Implement getAllUsers() method in DatabaseHelper
-  }
-
-  Future<void> _loadBookings() async {
-    _bookings = DatabaseHelper()
-        .getAllBookings(); // Implement getAllBookings() method in DatabaseHelper
+  Future<void> _refreshUsers() async {
+    setState(() {
+      _users = DatabaseHelper().getAllUsers();
+    });
   }
 
   @override
@@ -42,8 +37,7 @@ class _UserListViewState extends State<UserListView> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color.fromARGB(255, 123, 70, 66),
-        leading: const Icon(
-            Icons.admin_panel_settings_outlined), // Static icon for display
+        leading: const Icon(Icons.admin_panel_settings_outlined),
       ),
       body: FutureBuilder<List<Users>>(
         future: _users,
@@ -70,8 +64,27 @@ class _UserListViewState extends State<UserListView> {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.edit),
-                          onPressed: () {
-                            _editUser(context, user);
+                          onPressed: () async {
+                            var updatedUser = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProfileEditPage(
+                                  user: user,
+                                  name: user.name,
+                                  email: user.email,
+                                  phone: user.phone != null
+                                      ? user.phone.toString()
+                                      : '',
+                                  username: user.username,
+                                  password: user.password,
+                                ),
+                              ),
+                            );
+                            if (updatedUser != null) {
+                              setState(() {
+                                _users = DatabaseHelper().getAllUsers();
+                              });
+                            }
                           },
                         ),
                         IconButton(
@@ -102,26 +115,23 @@ class _UserListViewState extends State<UserListView> {
             onTabChange: (index) {
               switch (index) {
                 case 0:
-                  break;
-                case 1:
-                 /* Navigator.push(
-                    // ignore: use_build_context_synchronously
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AdminBookingHistory(
-                        usrId: booking.usrId,
-                        bookId: booking.bookId,
-                      ),
-                    ),
-                  );*/
-                  break;
-                case 2:
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
+                      builder: (context) => const UserListView(),
                     ),
                   );
+                  break;
+                case 1:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AdminBookingHistory(),
+                    ),
+                  );
+                  break;
+                case 2:
+                  _showLogoutConfirmationDialog(context);
                   break;
               }
             },
@@ -146,44 +156,36 @@ class _UserListViewState extends State<UserListView> {
     );
   }
 
-  void _navigateToBookingHistory(BuildContext context) async {
-    // Assuming the first booking for the example, modify as needed
-    var bookings = await _bookings;
-    if (bookings.isNotEmpty) {
-      Booking booking = bookings[
-          0]; // Replace with appropriate logic to get the correct booking
-      Navigator.push(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(
-          builder: (context) => AdminBookingHistory(
-            usrId: booking.usrId,
-            bookId: booking.bookId,
-          ),
-        ),
-      );
-    }
-  }
-
-  // Function to edit user
-  void _editUser(BuildContext context, Users user) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProfileEditPage(
-          user: user,
-          name: user.name,
-          email: user.email,
-          phone: user.phone != null ? user.phone.toString() : '',
-          username: user.username,
-          password: user.password,
-        ),
-      ),
-    ).then((_) {
-      setState(() {
-        _loadUsers();
-      });
-    });
+  void _showLogoutConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Log Out'),
+          content: const Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Log Out'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   // Function to delete user
@@ -192,25 +194,24 @@ class _UserListViewState extends State<UserListView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Delete User'),
+          title: const Text('Delete User'),
           content: Text('Are you sure you want to delete ${user.name}?'),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Delete'),
+              child: const Text('Delete'),
               onPressed: () async {
                 int? userId = user.usrId;
                 if (userId != null) {
                   await DatabaseHelper().deleteUser(userId);
-                  // ignore: use_build_context_synchronously
                   Navigator.of(context).pop();
                   setState(() {
-                    _loadUsers();
+                    _users = DatabaseHelper().getAllUsers(); // Refresh the list
                   });
                 } else {
                   // Handle the case when user.usrId is null

@@ -10,17 +10,17 @@ class ProfileEditPage extends StatefulWidget {
   final String username;
   final String password;
 
-  const ProfileEditPage(
-      {required this.user,
-      super.key,
-      required this.name,
-      required this.email,
-      required this.phone,
-      required this.username,
-      required this.password});
+  const ProfileEditPage({
+    required this.user,
+    super.key,
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.username,
+    required this.password,
+  });
 
   @override
-  // ignore: library_private_types_in_public_api
   _ProfileEditPageState createState() => _ProfileEditPageState();
 }
 
@@ -76,6 +76,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         _isEditingPhone = false;
         _isEditingPassword = false;
       });
+      Navigator.pop(context, updatedUser); // Return the updated user
     }
   }
 
@@ -168,7 +169,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context,
+                widget.user); // Return the initial user if no changes were made
           },
         ),
       ),

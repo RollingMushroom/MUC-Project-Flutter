@@ -59,13 +59,11 @@ class _LoginScreenState extends State<LoginScreen> {
       password: password.text,
     ));
     if (response == true) {
-      isLoginTrue = true;
       if (!mounted) return;
-      isLoginTrue = true;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => UserListView(),
+          builder: (context) => const UserListView(),
         ),
       );
     } else {

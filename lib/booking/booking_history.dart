@@ -18,7 +18,6 @@ class _BookingHistoryState extends State<BookingHistory> {
   @override
   void initState() {
     super.initState();
-    // Initialize the future booking history when the widget is created
     _futureBookingHistory = _getBookingHistory();
   }
 

@@ -114,7 +114,8 @@ class _BookingPageState extends State<BookingPage> {
                     'Date & Time: ',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(DateFormat('yyyy-MM-dd hh:mm a').format(reservationDateTime!)),
+                  Text(DateFormat('yyyy-MM-dd hh:mm a')
+                      .format(reservationDateTime!)),
                   const SizedBox(height: 10),
                   const Text(
                     'Number of Guests: ',

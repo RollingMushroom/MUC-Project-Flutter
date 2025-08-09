@@ -96,33 +96,33 @@ This project is built with Flutter. If you're new to Flutter, here are some reso
 
 Here are some screenshots of the application:
 
-<div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-    <img src="assets/screenshots/front_page.png" width="48%" alt="Front Page"/>
-    <img src="assets/screenshots/menu_packages.png" width="48%" alt="Menu Packages"/>
+<div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+    <img src="assets/screenshots/front_page.png" width="36%" alt="Front Page"/>
+    <img src="assets/screenshots/menu_packages.png" width="36%" alt="Menu Packages"/>
 </div>
 <p align="center">Front page and menu packages view</p>
 
-<div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-    <img src="assets/screenshots/login.png" width="48%" alt="Login Screen"/>
-    <img src="assets/screenshots/register.png" width="48%" alt="Registration Screen"/>
+<div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+    <img src="assets/screenshots/login.png" width="36%" alt="Login Screen"/>
+    <img src="assets/screenshots/register.png" width="36%" alt="Registration Screen"/>
 </div>
 <p align="center">Login and registration screens</p>
 
-<div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-    <img src="assets/screenshots/edit_profile.png" width="48%" alt="Edit Profile"/>
-    <img src="assets/screenshots/package_detail.png" width="48%" alt="Package Details"/>
+<div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+    <img src="assets/screenshots/edit_profile.png" width="36%" alt="Edit Profile"/>
+    <img src="assets/screenshots/package_detail.png" width="36%" alt="Package Details"/>
 </div>
 <p align="center">Edit profile and package details screens</p>
 
-<div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-    <img src="assets/screenshots/booking_form.png" width="48%" alt="Booking Form"/>
-    <img src="assets/screenshots/booking_list.png" width="48%" alt="Booking List"/>
+<div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+    <img src="assets/screenshots/booking_form.png" width="36%" alt="Booking Form"/>
+    <img src="assets/screenshots/booking_list.png" width="36%" alt="Booking List"/>
 </div>
 <p align="center">Booking form and list screens</p>
 
-<div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-    <img src="assets/screenshots/registered_user.png" width="48%" alt="Registered Users"/>
-    <img src="assets/screenshots/booking_list.png" width="48%" alt="Admin Booking List"/>
+<div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+    <img src="assets/screenshots/registered_user.png" width="36%" alt="Registered Users"/>
+    <img src="assets/screenshots/booking_list.png" width="36%" alt="Admin Booking List"/>
 </div>
 <p align="center">Administrator views - registered users and booking list</p>
 

@@ -96,35 +96,30 @@ This project is built with Flutter. If you're new to Flutter, here are some reso
 
 Here are some screenshots of the application:
 
-<div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
-    <img src="assets/screenshots/front_page.png" width="36%" alt="Front Page"/>
-    <img src="assets/screenshots/menu_packages.png" width="36%" alt="Menu Packages"/>
-</div>
-<p align="center">Front page and menu packages view</p>
+| Front Page | Menu Packages |
+|:----------:|:-------------:|
+| <img src="assets/screenshots/front_page.png" width="100%" alt="Front Page"/> | <img src="assets/screenshots/menu_packages.png" width="100%" alt="Menu Packages"/> |
+| **Home Screen View** | **Available Menu Packages** |
 
-<div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
-    <img src="assets/screenshots/login.png" width="36%" alt="Login Screen"/>
-    <img src="assets/screenshots/register.png" width="36%" alt="Registration Screen"/>
-</div>
-<p align="center">Login and registration screens</p>
+| Login Screen | Registration Screen |
+|:------------:|:------------------:|
+| <img src="assets/screenshots/login.png" width="100%" alt="Login Screen"/> | <img src="assets/screenshots/register.png" width="100%" alt="Registration Screen"/> |
+| **User Login** | **New User Registration** |
 
-<div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
-    <img src="assets/screenshots/edit_profile.png" width="36%" alt="Edit Profile"/>
-    <img src="assets/screenshots/package_detail.png" width="36%" alt="Package Details"/>
-</div>
-<p align="center">Edit profile and package details screens</p>
+| Edit Profile | Package Details |
+|:------------:|:--------------:|
+| <img src="assets/screenshots/edit_profile.png" width="100%" alt="Edit Profile"/> | <img src="assets/screenshots/package_detail.png" width="100%" alt="Package Details"/> |
+| **Profile Management** | **Menu Package Information** |
 
-<div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
-    <img src="assets/screenshots/booking_form.png" width="36%" alt="Booking Form"/>
-    <img src="assets/screenshots/booking_list.png" width="36%" alt="Booking List"/>
-</div>
-<p align="center">Booking form and list screens</p>
+| Booking Form | Booking List |
+|:------------:|:------------:|
+| <img src="assets/screenshots/booking_form.png" width="100%" alt="Booking Form"/> | <img src="assets/screenshots/booking_list.png" width="100%" alt="Booking List"/> |
+| **Create New Booking** | **View All Bookings** |
 
-<div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
-    <img src="assets/screenshots/registered_user.png" width="36%" alt="Registered Users"/>
-    <img src="assets/screenshots/booking_list.png" width="36%" alt="Admin Booking List"/>
-</div>
-<p align="center">Administrator views - registered users and booking list</p>
+| Registered Users | Admin Booking List |
+|:---------------:|:-----------------:|
+| <img src="assets/screenshots/registered_user.png" width="100%" alt="Registered Users"/> | <img src="assets/screenshots/booking_list.png" width="100%" alt="Admin Booking List"/> |
+| **User Management** | **Admin Booking Management** |
 
 ## About
 This application was developed as an assignment for ISB26604 - Mobile and Ubiquitous Computing.
